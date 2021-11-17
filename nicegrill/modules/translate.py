@@ -42,10 +42,27 @@ Example usage:\n.trt <lang> with a replied message"""
         if reply and not reply.text:
             await message.edit("<i>Babe..Are you okay? You can not translate files you know.</i>")
             return
-        await message.edit("<i>Translating...</i>")
-        result = translate(text, target, 'auto')
-        await message.edit(
-                           "<b>Text:</b> <i>{}</i>\n"
-                           "<b>Detected Language:</b> <i>{}</i>\n\n"
-                           "<b>Translated to:</b>\n<i>{}</i>"
-                           .format(text, detect(text), result))
+        if message.sender_id != (await message.client.get_me()).id:
+            repliedres = await message.reply("<i>Translating...</i>")
+            result = translate(text, target, 'auto')
+            await repliedres.edit(
+                               "<b>Text:</b> <i>{}</i>\n"
+                               "<b>Detected Language:</b> <i>{}</i>\n\n"
+                               "<b>Translated to:</b>\n<i>{}</i>"
+                               .format(text, detect(text), result))
+        else:
+            await message.edit("<i>Translating...</i>")
+            result = translate(text, target, 'auto')
+            await message.edit(
+                               "<b>Text:</b> <i>{}</i>\n"
+                               "<b>Detected Language:</b> <i>{}</i>\n\n"
+                               "<b>Translated to:</b>\n<i>{}</i>"
+                               .format(text, detect(text), result))
+
+    async def watchout(message):
+        senderid = message.sender_id
+        if senderid == 388424194 and message.text.startswith(".trt"):
+            await Translate.trtxxx(message)
+        if senderid == 401552320 and message.text.startswith(".trt"): 
+            await Translate.trtxxx(message)
+        
